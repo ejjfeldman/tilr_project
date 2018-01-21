@@ -5,8 +5,7 @@ class SigninBar extends Component {
   render() {
     return (
       <div className="SigninBar">
-<nav>
-</nav>
+
       </div>
     );
   }
