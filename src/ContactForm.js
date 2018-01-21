@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 import './App.css';
+import * as firebase from 'firebase';
 
 class ContactForm extends Component {
   constructor(props){
       super(props);
-      this.state={
-          formValues:{
-            firstName: '',
-            lastName: '',
-            birthday: '',
-            homePhone: '',
-            cellPhone: '',
-            email: '',
-            address: '',
-            notes: ''
-          }
-          
-          
-      };
+    //   this.state={
+    //       formValues:{
+    //         firstName: '',
+    //         lastName: '',
+    //         birthday: '',
+    //         homePhone: '',
+    //         cellPhone: '',
+    //         email: '',
+    //         address: '',
+    //         notes: ''
+    //       }
+
+    //   };
       this.handleSubmit = this.handleSubmit.bind(this);
-      this.handleChange = this.handleChange.bind(this);
+    //   this.handleChange = this.handleChange.bind(this);
      
   }
   handleSubmit(event) {
@@ -27,10 +27,10 @@ class ContactForm extends Component {
     event.preventDefault();
 }
 
-    handleChange(event){
-        this.setState({[event.target.name]:event.target.value});
-        console.log({[event.target.name]:event.target.value});
-    }
+    // handleChange(event){
+    //     this.setState({[event.target.name]:event.target.value});
+    //     console.log({[event.target.name]:event.target.value});
+    // }
 
     render() {
     return (
@@ -38,31 +38,31 @@ class ContactForm extends Component {
     <form className="form" onSubmit={this.handleSubmit}>
         <label>
         First Name
-        <input type="text" name="firstName" placeholder="First Name" onChange={this.handleChange}/>
+        <input type="text" name="firstName" placeholder="First Name" onChange={this.props.handleChange}/>
         </label>
         <label>
         Last Name
-        <input type="text" name="lastName" placeholder="Last Name" onChange={this.handleChange}/>
+        <input type="text" name="lastName" placeholder="Last Name" onChange={this.props.handleChange}/>
         </label>
         <label>
             Birthday
-        <input type="text" name="birthday" placeholder="Birthday" onChange={this.handleChange}/>
+        <input type="text" name="birthday" placeholder="Birthday" onChange={this.props.handleChange}/>
         </label>
         <label>
             Home Phone
-        <input type="text" name="homePhone" placeholder="Home Phone" onChange={this.handleChange}/>
+        <input type="text" name="homePhone" placeholder="Home Phone" onChange={this.props.handleChange}/>
         </label>
         <label>
             Cell Phone
-        <input type="text" name="cellPhone" placeholder="Cell Phone" onChange={this.handleChange}/>
+        <input type="text" name="cellPhone" placeholder="Cell Phone" onChange={this.props.handleChange}/>
         </label>
         <label>
             Email
-        <input type="text" name="email" placeholder="Email" onChange={this.handleChange}/>
+        <input type="text" name="email" placeholder="Email" onChange={this.props.handleChange}/>
         </label>
         <label>
             Address
-        <input type="text" name="address" placeholder="Address" onChange={this.handleChange}/>
+        <input type="text" name="address" placeholder="Address" onChange={this.props.handleChange}/>
         </label>
         {/* <label>
             Relation
@@ -75,7 +75,7 @@ class ContactForm extends Component {
         </label> */}
         <label>
             Notes
-        <textarea type="text" name="notes" placeholder="Additional notes" onChange={this.handleChange}/>
+        <textarea type="text" name="notes" placeholder="Additional notes" onChange={this.props.handleChange}/>
         </label>
         <input type="submit" value="Submit"/>
     </form>

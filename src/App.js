@@ -3,15 +3,38 @@ import './App.css';
 import ContactTable from './ContactTable';
 import ContactForm from './ContactForm';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+// import * as firebase from 'firebase';
 
 class App extends Component {
   constructor() {
     super();
-    this.state = {
-      firstName
-      
-    }
+    this.state={
+      formValues:{
+        firstName: '',
+        lastName: '',
+        birthday: '',
+        homePhone: '',
+        cellPhone: '',
+        email: '',
+        address: '',
+        notes: ''
+      }
+
+  };
+  // this.handleSubmit = this.handleSubmit.bind(this);
+  this.handleChange = this.handleChange.bind(this);
   }
+  handleChange(event){
+    this.setState({[event.target.name]:event.target.value});
+    console.log("here");
+    console.log({[event.target.name]:event.target.value});
+}
+
+// handleSubmit(event) {
+//   console.log({[event.target.name]:event.target.value});
+//   event.preventDefault();
+// }
+
   render() {
     return (
       <div className="App">
@@ -21,7 +44,9 @@ class App extends Component {
         <div className="contacts">
         <ContactTable/>
         </div>
-        <ContactForm/>
+        <ContactForm 
+        handleChange={this.handleChange}
+        formValues={this.state.formValues}/>
       </div>
     );
   }
