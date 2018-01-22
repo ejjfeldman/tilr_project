@@ -9,6 +9,7 @@ import {
     TableRow,
     TableRowColumn,
   } from 'material-ui/Table';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class ContactTable extends Component {
   render() {
@@ -25,6 +26,8 @@ class ContactTable extends Component {
         <TableHeaderColumn>Cell Phone</TableHeaderColumn>
         <TableHeaderColumn>Email</TableHeaderColumn>
         <TableHeaderColumn>Address</TableHeaderColumn>
+        <TableHeaderColumn></TableHeaderColumn>
+        
         {/* <TableHeaderColumn>Relation</TableHeaderColumn> */}
       </TableRow>
     </TableHeader>
@@ -39,6 +42,7 @@ class ContactTable extends Component {
                 <TableRowColumn>{contact.cell}</TableRowColumn>
                 <TableRowColumn>{contact.mail}</TableRowColumn>
                 <TableRowColumn>{contact.address}</TableRowColumn>
+                <TableRowColumn><RaisedButton className="deleteButton" label="Delete" backgroundColor="#d33a34" onClick={()=> this.props.deleteContact(contact.id)}/></TableRowColumn>
       </TableRow>
           )
         })}

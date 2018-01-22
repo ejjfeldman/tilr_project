@@ -24,6 +24,7 @@ class App extends Component {
   this.handleChange = this.handleChange.bind(this);
   this.onClick = this.onClick.bind(this);
   this.contactSelect= this.contactSelect.bind(this);
+  this.deleteContact=this.deleteContact.bind(this);
   }
 
   componentDidMount(){
@@ -95,6 +96,12 @@ contactSelect(){
 console.log("select")
 }
 
+deleteContact(contactId){
+console.log(contactId)
+const contactRef = firebase.database().ref(`/contactValues/${contactId}`);
+contactRef.remove();
+}
+
   render() {
     return (
       <div className="App">
@@ -106,13 +113,13 @@ console.log("select")
 
         <RaisedButton label="Create Contact" primary={true} onClick={this.onClick}/>
         <RaisedButton className="editButton" label="Edit"/>
-        <RaisedButton className="deleteButton" label="Delete" backgroundColor="#d33a34"/>
        </div>
        </MuiThemeProvider>
         <div className="contacts">
         {!this.state.showForm && <ContactTable 
         contactValues={this.state.contactValues}
-        contactSelect={this.state.contactSelect}/>}
+        contactSelect={this.state.contactSelect}
+        deleteContact={this.deleteContact}/>}
         </div>
         {this.state.showForm &&
         <ContactForm 
