@@ -23,6 +23,7 @@ class App extends Component {
   this.handleSubmit = this.handleSubmit.bind(this);
   this.handleChange = this.handleChange.bind(this);
   this.onClick = this.onClick.bind(this);
+  this.contactSelect= this.contactSelect.bind(this);
   }
 
   componentDidMount(){
@@ -90,6 +91,10 @@ onClick(event){
   this.setState({showForm: !this.state.showForm})
 }
 
+contactSelect(){
+console.log("select")
+}
+
   render() {
     return (
       <div className="App">
@@ -106,7 +111,8 @@ onClick(event){
        </MuiThemeProvider>
         <div className="contacts">
         {!this.state.showForm && <ContactTable 
-        contactValues={this.state.contactValues}/>}
+        contactValues={this.state.contactValues}
+        contactSelect={this.state.contactSelect}/>}
         </div>
         {this.state.showForm &&
         <ContactForm 

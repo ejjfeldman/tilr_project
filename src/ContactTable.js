@@ -31,7 +31,7 @@ class ContactTable extends Component {
     <TableBody displayRowCheckbox={false}>
     {this.props.contactValues.map((contact)=>{
               return(
-      <TableRow key={contact.id}>
+      <TableRow key={contact.id} onClick={this.props.contactSelect}>
                 <TableRowColumn>{contact.first}</TableRowColumn>
                 <TableRowColumn>{contact.last}</TableRowColumn>
                 <TableRowColumn>{contact.birth}</TableRowColumn>

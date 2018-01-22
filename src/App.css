@@ -36,6 +36,11 @@
   padding: 2%;
 }
 
+TextField{
+  border-radius: 4dp;
+  height: 56dp;
+  color: black;
+}
 
 /* Buttons */
 .editButton{
@@ -45,3 +50,7 @@
 .deleteButton{
 background-color: darkred;
 }
+
+/* RaisedButton{
+  
+} */

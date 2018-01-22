@@ -3,6 +3,7 @@ import './App.css';
 import * as firebase from 'firebase';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
@@ -21,36 +22,16 @@ class ContactForm extends Component {
     <form className="form" onSubmit={this.props.handleSubmit}>
     <CardHeader
         title="Create New Contact"
-        // subtitle="Subtitle"
-        // actAsExpander={true}
-        // showExpandableButton={true}
       />
         <div>
-        <label>
-        First Name: <input type="text" name="firstName" placeholder="First Name" onChange={this.props.handleChange}/>
-        </label>
-        <label>
-        Last Name: <input type="text" name="lastName" placeholder="Last Name" onChange={this.props.handleChange}/>
-        </label>
-        <label>
-            Birthday: <input type="text" name="birthday" placeholder="Birthday" onChange={this.props.handleChange}/>
-        </label>
-        </div>
-        <div>
-        <label>
-            Home Phone: <input type="text" name="homePhone" placeholder="Home Phone" onChange={this.props.handleChange}/>
-        </label>
-        <label>
-            Cell Phone: <input type="text" name="cellPhone" placeholder="Cell Phone" onChange={this.props.handleChange}/>
-        </label>
-        <label>
-            Email: <input type="text" name="email" placeholder="Email" onChange={this.props.handleChange}/>
-        </label>
-        </div>
-        <div>
-        <label>
-            Address: <input type="text" name="address" placeholder="Address" onChange={this.props.handleChange}/>
-        </label>
+    <TextField type="text" name="firstName" hintText="eg. George" floatingLabelText="First Name" onChange={this.props.handleChange}/><br/>
+    <TextField type="text" name="lastName" hintText="eg. Freeman" floatingLabelText="Last Name" onChange={this.props.handleChange}/><br/>
+    <TextField type="text" name="birthday" hintText="eg. November 10, 1959" floatingLabelText="Date of Birth" onChange={this.props.handleChange}/><br/>
+    <TextField type="text" name="homePhone" hintText="eg. (555) 881-3948" floatingLabelText="Home Phone" onChange={this.props.handleChange}/><br/>
+    <TextField type="text" name="cellPhone" hintText="eg. (555) 940-2233" floatingLabelText="Cell Phone" onChange={this.props.handleChange}/><br/>
+    <TextField type="text" name="email" hintText="eg. george_f@gmail.com" floatingLabelText="Email" onChange={this.props.handleChange}/><br/>
+    <TextField type="text" name="address" hintText="eg. 435 Street Avenue" floatingLabelText="Address" onChange={this.props.handleChange}/>
+
         {/* <label>
             Relation
         <select value={}>
