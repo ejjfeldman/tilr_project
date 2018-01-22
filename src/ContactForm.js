@@ -9,26 +9,22 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 class ContactForm extends Component {
   constructor(props){
       super(props);
-    //   this.handleSubmit = this.handleSubmit.bind(this);
+
      
   }
-//   handleSubmit(event) {
-//     console.log({[event.target.name]:event.target.value});
-//     event.preventDefault();
-// }
 
     render() {
     return (
     <div className="ContactForm">
     <MuiThemeProvider>
     <Card>
-        <CardHeader
+    <form className="form" onSubmit={this.props.handleSubmit}>
+    <CardHeader
         title="Create New Contact"
         // subtitle="Subtitle"
         // actAsExpander={true}
         // showExpandableButton={true}
       />
-    <form className="form" onSubmit={this.props.handleSubmit}>
         <div>
         <label>
         First Name: <input type="text" name="firstName" placeholder="First Name" onChange={this.props.handleChange}/>
@@ -69,7 +65,9 @@ class ContactForm extends Component {
         </label> */}
         </div>
         <br />
-        <input type="submit" value="Submit"/>
+        <button type="submit" value="Submit">Submit</button>
+        <button onClick={this.props.onClick}>Cancel</button>
+       
     </form>
     </Card>
     </MuiThemeProvider>

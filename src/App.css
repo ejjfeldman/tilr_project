@@ -29,7 +29,19 @@
 
 /* Contact Form */
 .ContactForm{
-  margin-right: 5%;
-  margin-left: 5%;
+  margin: 5%;
 }
 
+.form{
+  padding: 2%;
+}
+
+
+/* Buttons */
+.editButton{
+  color: black;
+}
+
+.deleteButton{
+background-color: darkred;
+}

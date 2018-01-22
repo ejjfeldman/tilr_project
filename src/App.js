@@ -3,6 +3,7 @@ import './App.css';
 import ContactTable from './ContactTable';
 import ContactForm from './ContactForm';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import RaisedButton from 'material-ui/RaisedButton';
 import * as firebase from 'firebase';
 
 class App extends Component {
@@ -12,14 +13,16 @@ class App extends Component {
         firstName: '',
         lastName: '',
         birthday: '',
-        homePhone: 'test',
+        homePhone: '',
         cellPhone: '',
         email: '',
         address: '',
-       contactValues:[]
+       contactValues:[],
+       showForm: false
   };
   this.handleSubmit = this.handleSubmit.bind(this);
   this.handleChange = this.handleChange.bind(this);
+  this.onClick = this.onClick.bind(this);
   }
 
   componentDidMount(){
@@ -75,8 +78,16 @@ handleSubmit(event) {
     homePhone: '',
     cellPhone: '',
     email: '',
-    address: ''
+    address: '',
+    showForm: false
   })
+
+}
+
+onClick(event){
+  event.preventDefault();
+  console.log("clicked");
+  this.setState({showForm: !this.state.showForm})
 }
 
   render() {
@@ -85,15 +96,25 @@ handleSubmit(event) {
         <header className="App-header">
           <h1 className="App-title">User's Contacts</h1>
         </header>
+        <MuiThemeProvider>
+        <div>
+
+        <RaisedButton label="Create Contact" primary={true} onClick={this.onClick}/>
+        <RaisedButton className="editButton" label="Edit"/>
+        <RaisedButton className="deleteButton" label="Delete" backgroundColor="#d33a34"/>
+       </div>
+       </MuiThemeProvider>
         <div className="contacts">
-        <ContactTable 
-        contactValues={this.state.contactValues}/>
+        {!this.state.showForm && <ContactTable 
+        contactValues={this.state.contactValues}/>}
         </div>
-        <div>{this.state.contactValues.homePhone}</div>
+        {this.state.showForm &&
         <ContactForm 
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
-        contactValues={this.state.contactValues}/>
+        contactValues={this.state.contactValues}
+        showForm={this.state.showForm}
+        onClick={this.onClick}/>}
       </div>
     );
   }
