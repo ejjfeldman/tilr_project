@@ -25,22 +25,23 @@ class ContactTable extends Component {
         <TableHeaderColumn>Cell Phone</TableHeaderColumn>
         <TableHeaderColumn>Email</TableHeaderColumn>
         <TableHeaderColumn>Address</TableHeaderColumn>
-        <TableHeaderColumn>Relation</TableHeaderColumn>
-        <TableHeaderColumn>Notes</TableHeaderColumn>
+        {/* <TableHeaderColumn>Relation</TableHeaderColumn> */}
       </TableRow>
     </TableHeader>
     <TableBody displayRowCheckbox={false}>
-      <TableRow>
-        <TableRowColumn></TableRowColumn>
-        <TableRowColumn></TableRowColumn>
-        <TableRowColumn></TableRowColumn>
-        <TableRowColumn></TableRowColumn>
-        <TableRowColumn></TableRowColumn>
-        <TableRowColumn></TableRowColumn>
-        <TableRowColumn></TableRowColumn>
-        <TableRowColumn></TableRowColumn>
-        <TableRowColumn></TableRowColumn>
+    {this.props.contactValues.map((contact)=>{
+              return(
+      <TableRow key={contact.id}>
+                <TableRowColumn>{contact.first}</TableRowColumn>
+                <TableRowColumn>{contact.last}</TableRowColumn>
+                <TableRowColumn>{contact.birth}</TableRowColumn>
+                <TableRowColumn>{contact.home}</TableRowColumn>
+                <TableRowColumn>{contact.cell}</TableRowColumn>
+                <TableRowColumn>{contact.mail}</TableRowColumn>
+                <TableRowColumn>{contact.address}</TableRowColumn>
       </TableRow>
+          )
+        })}
     </TableBody>
     </Table>
 </MuiThemeProvider>

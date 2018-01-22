@@ -26,3 +26,10 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/* Contact Form */
+.ContactForm{
+  margin-right: 5%;
+  margin-left: 5%;
+}
+

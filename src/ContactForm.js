@@ -1,68 +1,59 @@
 import React, { Component } from 'react';
 import './App.css';
 import * as firebase from 'firebase';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 
 class ContactForm extends Component {
   constructor(props){
       super(props);
-    //   this.state={
-    //       formValues:{
-    //         firstName: '',
-    //         lastName: '',
-    //         birthday: '',
-    //         homePhone: '',
-    //         cellPhone: '',
-    //         email: '',
-    //         address: '',
-    //         notes: ''
-    //       }
-
-    //   };
-      this.handleSubmit = this.handleSubmit.bind(this);
-    //   this.handleChange = this.handleChange.bind(this);
+    //   this.handleSubmit = this.handleSubmit.bind(this);
      
   }
-  handleSubmit(event) {
-    console.log({[event.target.name]:event.target.value});
-    event.preventDefault();
-}
-
-    // handleChange(event){
-    //     this.setState({[event.target.name]:event.target.value});
-    //     console.log({[event.target.name]:event.target.value});
-    // }
+//   handleSubmit(event) {
+//     console.log({[event.target.name]:event.target.value});
+//     event.preventDefault();
+// }
 
     render() {
     return (
     <div className="ContactForm">
-    <form className="form" onSubmit={this.handleSubmit}>
+    <MuiThemeProvider>
+    <Card>
+        <CardHeader
+        title="Create New Contact"
+        // subtitle="Subtitle"
+        // actAsExpander={true}
+        // showExpandableButton={true}
+      />
+    <form className="form" onSubmit={this.props.handleSubmit}>
+        <div>
         <label>
-        First Name
-        <input type="text" name="firstName" placeholder="First Name" onChange={this.props.handleChange}/>
+        First Name: <input type="text" name="firstName" placeholder="First Name" onChange={this.props.handleChange}/>
         </label>
         <label>
-        Last Name
-        <input type="text" name="lastName" placeholder="Last Name" onChange={this.props.handleChange}/>
+        Last Name: <input type="text" name="lastName" placeholder="Last Name" onChange={this.props.handleChange}/>
         </label>
         <label>
-            Birthday
-        <input type="text" name="birthday" placeholder="Birthday" onChange={this.props.handleChange}/>
+            Birthday: <input type="text" name="birthday" placeholder="Birthday" onChange={this.props.handleChange}/>
+        </label>
+        </div>
+        <div>
+        <label>
+            Home Phone: <input type="text" name="homePhone" placeholder="Home Phone" onChange={this.props.handleChange}/>
         </label>
         <label>
-            Home Phone
-        <input type="text" name="homePhone" placeholder="Home Phone" onChange={this.props.handleChange}/>
+            Cell Phone: <input type="text" name="cellPhone" placeholder="Cell Phone" onChange={this.props.handleChange}/>
         </label>
         <label>
-            Cell Phone
-        <input type="text" name="cellPhone" placeholder="Cell Phone" onChange={this.props.handleChange}/>
+            Email: <input type="text" name="email" placeholder="Email" onChange={this.props.handleChange}/>
         </label>
+        </div>
+        <div>
         <label>
-            Email
-        <input type="text" name="email" placeholder="Email" onChange={this.props.handleChange}/>
-        </label>
-        <label>
-            Address
-        <input type="text" name="address" placeholder="Address" onChange={this.props.handleChange}/>
+            Address: <input type="text" name="address" placeholder="Address" onChange={this.props.handleChange}/>
         </label>
         {/* <label>
             Relation
@@ -73,12 +64,15 @@ class ContactForm extends Component {
             <option value="otherRelation">Other</option>
         </select>
         </label> */}
-        <label>
-            Notes
-        <textarea type="text" name="notes" placeholder="Additional notes" onChange={this.props.handleChange}/>
-        </label>
+        {/* <label>
+            Notes: <textarea type="text" name="notes" placeholder="Additional notes" onChange={this.props.handleChange}/>
+        </label> */}
+        </div>
+        <br />
         <input type="submit" value="Submit"/>
     </form>
+    </Card>
+    </MuiThemeProvider>
     </div>
     );
   }
