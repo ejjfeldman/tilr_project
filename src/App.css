@@ -29,7 +29,8 @@
 
 /* Contact Form */
 .ContactForm{
-  margin: 5%;
+  margin-right: 5%;
+  margin-left: 5%;
 }
 
 .form{
@@ -51,6 +52,10 @@ TextField{
 background-color: darkred;
 }
 
-/* RaisedButton{
-  
-} */
+createBtn{
+margin: 1%!important; 
+}
+
+.signOutBtn{
+  margin-right: 2% !important;
+}

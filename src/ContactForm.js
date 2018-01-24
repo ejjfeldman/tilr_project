@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import './App.css';
 import * as firebase from 'firebase';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+import {Card, CardHeader} from 'material-ui/Card';
+// import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from "material-ui/RaisedButton";
+import { browserHistory, Link } from 'react-router';
 import TextField from 'material-ui/TextField';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
 class ContactForm extends Component {
-  constructor(props){
-      super(props);
-
-     
-  }
 
     render() {
     return (
     <div className="ContactForm">
+   <MuiThemeProvider>
+   <Link to="/contacts"><RaisedButton label="View Contacts"></RaisedButton></Link>
+</MuiThemeProvider>
+   
     <MuiThemeProvider>
+    {/* <RaisedButton label="View Contacts" primary={true} onClick={this.props.changeForm}/> */}
     <Card>
     <form className="form" onSubmit={this.props.handleSubmit}>
     <CardHeader

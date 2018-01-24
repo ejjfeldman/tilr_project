@@ -6,8 +6,7 @@ import SigninBar from "./SigninBar";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import RaisedButton from "material-ui/RaisedButton";
 import AppBar from "material-ui/AppBar";
-import { browserHistory, Link } from 'react-router';
-// import { Route, Link } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 // import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import * as firebase from "firebase";
 
@@ -130,28 +129,14 @@ class App extends Component {
             <AppBar
               showMenuIconButton={false}
               title={<span>User's Contacts</span>}
-              iconElementRight={<Link to="/"><RaisedButton label="Sign In" /></Link>}
+              iconElementRight={<RaisedButton label="Sign In" />}
             />
           </MuiThemeProvider>
         )}
 
         <header className="App-header" />
 
-         {/* <MuiThemeProvider>
-            <RaisedButton label="Create Contact"><Link to="/create"></Link></RaisedButton>
-          </MuiThemeProvider> */}
 
-          {/* {this.state.showForm && (
-           <ContactForm
-          />)} */}
-
-
-{/* <div className="mainContent">
-        <Route path='/create' component={ContactForm}/>
-</div> */}
-
-
-{/* 
 
 
 
@@ -197,28 +182,7 @@ class App extends Component {
 
       )} 
         
-<SigninBar
-authWithEmail={this.authWithEmail}
-authenticate={this.authenticate}
-isAuthenticated={this.state.isAuthenticated}/>
 
-
- */}
-
-
-<div className="mainContent">
-{React.cloneElement(this.props.children, {
-  handleChange: this.handleChange,
-  handleSubmit: this.handleSubmit,
-  contactValues: this.state.contactValues,
-  showForm: this.state.showForm,
-  changeForm:this.changeForm,
-  contactValues:this.state.contactValues,
-              contactSelect:this.state.contactSelect,
-              deleteContact:this.deleteContact,
-             editContact:this.editContact
-})}
-</div>
 
        </div>
      );

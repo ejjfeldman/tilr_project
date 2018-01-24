@@ -10,12 +10,30 @@ import {
     TableRowColumn,
   } from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
+import EditIcon from 'material-ui/svg-icons/image/edit';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import IconButton from 'material-ui/IconButton';
+import { browserHistory, Link } from 'react-router';
+// import { Route, Link } from "react-router-dom";
 
 class ContactTable extends Component {
   render() {
     return (
       <div className="ContactTable">
+
+
 <MuiThemeProvider>
+<Link to="/create"><RaisedButton label="Create Contact"></RaisedButton></Link>
+</MuiThemeProvider>
+{/* 
+
+<MuiThemeProvider>
+<Link to="/create"><RaisedButton className="createBtn" label="Create Contact" primary={true} onClick={this.props.changeForm}/></Link>
+</MuiThemeProvider>
+ */}
+
+<MuiThemeProvider>
+
     <Table>
     <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
       <TableRow>
@@ -42,7 +60,14 @@ class ContactTable extends Component {
                 <TableRowColumn>{contact.cell}</TableRowColumn>
                 <TableRowColumn>{contact.mail}</TableRowColumn>
                 <TableRowColumn>{contact.address}</TableRowColumn>
-                <TableRowColumn><RaisedButton className="deleteButton" label="Delete" backgroundColor="#d33a34" onClick={()=> this.props.deleteContact(contact.id)}/></TableRowColumn>
+                <TableRowColumn>
+                    <IconButton onClick={()=> this.props.editContact(contact.id)}>
+                        <EditIcon/>
+                    </IconButton >
+                    <IconButton onClick={()=> this.props.deleteContact(contact.id)}>
+                        <DeleteIcon/>
+                    </IconButton>
+                </TableRowColumn>
       </TableRow>
           )
         })}
