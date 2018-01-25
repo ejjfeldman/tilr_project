@@ -6,10 +6,9 @@ import SigninBar from "./SigninBar";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import RaisedButton from "material-ui/RaisedButton";
 import AppBar from "material-ui/AppBar";
-import { browserHistory, Link } from 'react-router';
-// import { Route, Link } from "react-router-dom";
-// import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import * as firebase from "firebase";
+import EditForm from './EditForm';
+import { browserHistory, Link } from "react-router";
+import firebase, { auth, provider } from "./firebase.js";
 
 class App extends Component {
   constructor(props) {
@@ -24,7 +23,10 @@ class App extends Component {
       address: "",
       contactValues: [],
       showForm: false,
-      isAuthenticated: false
+      user: null,
+      uid: '',
+      contactToEdit: {}
+      // isAuthenticated: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -32,30 +34,24 @@ class App extends Component {
     this.contactSelect = this.contactSelect.bind(this);
     this.deleteContact = this.deleteContact.bind(this);
     this.editContact = this.editContact.bind(this);
+    this.logout = this.logout.bind(this);
+    this.login = this.login.bind(this);
+    this.getUserContacts = this.getUserContacts.bind(this);
+    this.saveFields = this.saveFields.bind(this);
+    this.handleEditSubmit = this.handleEditSubmit.bind(this);
+
   }
 
   componentDidMount() {
-    const contactsRef = firebase.database().ref("contactValues");
-    contactsRef.on("value", snap => {
-      let contactValues = snap.val();
-      // populate new array with results from value listener
-      let newState = [];
-      for (let contact in contactValues) {
-        newState.push({
-          id: contact,
-          first: contactValues[contact].first,
-          last: contactValues[contact].last,
-          birth: contactValues[contact].birth,
-          home: contactValues[contact].home,
-          cell: contactValues[contact].cell,
-          mail: contactValues[contact].mail,
-          address: contactValues[contact].address
-        });
-      }
-      //update state with pushed values from database
-      this.setState({
-        contactValues: newState
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        this.setState({ user,
+        uid: user.uid 
       });
+      const uid = this.state.uid;
+      this.getUserContacts(uid);
+      }
+      
     });
   }
 
@@ -65,10 +61,12 @@ class App extends Component {
     console.log({ [event.target.name]: event.target.value });
   }
 
+
   handleSubmit(event) {
     console.log({ [event.target.name]: event.target.value });
     event.preventDefault();
-    const contactsRef = firebase.database().ref("contactValues");
+    let uid = this.state.uid;
+    const userRef = firebase.database().ref(uid);
     const contact = {
       first: this.state.firstName,
       last: this.state.lastName,
@@ -76,9 +74,10 @@ class App extends Component {
       home: this.state.homePhone,
       cell: this.state.cellPhone,
       mail: this.state.email,
-      address: this.state.address
+      address: this.state.address,
+      uid:this.state.uid
     };
-    contactsRef.push(contact);
+    userRef.push(contact);
     this.setState({
       firstName: "",
       lastName: "",
@@ -89,6 +88,8 @@ class App extends Component {
       address: "",
       showForm: false
     });
+    console.log(this.state.uid)
+    browserHistory.push("/")
   }
 
   changeForm(event) {
@@ -103,126 +104,186 @@ class App extends Component {
   }
 
   deleteContact(contactId) {
-    console.log(contactId);
-    const contactRef = firebase.database().ref(`/contactValues/${contactId}`);
-    contactRef.remove();
+    let uid = this.state.uid;
+    const contactRef = firebase.database().ref().child(String(uid));
+    const specificContactRef = contactRef.child(String(contactId));
+    specificContactRef.remove();
   }
 
-  editContact(contactId) {
-    const contactRef = firebase.database().ref(`/contactValues/${contactId}`);
-    console.log(contactRef);
+  editContact(contact) {
+    this.setState({
+      contactToEdit: contact
+    })
+    console.log(this.state.contactToEdit)
+    // let uid = this.state.uid;
+    // console.log({ [event.target.name]: event.target.value });
+    // const contactRef = firebase.database().ref().child(String(uid));
+    // const specificContactRef = contactRef.child(String(contactId));
+    // console.log(contactRef);
+    browserHistory.push("/edit")
   }
+
+  handleEditSubmit(event){
+    console.log({[event.target.name]: event.target.value })
+    event.preventDefault();
+    let uid = this.state.uid;
+    const userRef = firebase.database().ref(uid);
+    const contact = {
+      first: this.state.firstName,
+      last: this.state.lastName,
+      birth: this.state.birthday,
+      home: this.state.homePhone,
+      cell: this.state.cellPhone,
+      mail: this.state.email,
+      address: this.state.address,
+      uid:this.state.uid
+    };
+    userRef.push(contact);
+    this.setState({
+      firstName: "",
+      lastName: "",
+      birthday: "",
+      homePhone: "",
+      cellPhone: "",
+      email: "",
+      address: "",
+      showForm: false
+    });
+    console.log(this.state.uid)
+    browserHistory.push("/")
+
+  }
+  //handling user login/out
+  handleUserChange(event) {}
+
+  logout() {
+    auth.signOut().then(() => {
+      this.setState({
+        user: null
+      });
+    });
+  }
+
+  login() {
+    auth.signInWithPopup(provider)
+    .then((result) => {
+      // var token = result.credential.accessToken;
+      const user = result.user;
+      this.setState({
+        uid: user.uid,
+        user
+      });
+      // console.log(token)
+      console.log(this.state.uid)
+      const currentUser = firebase.auth().currentUser;
+      console.log(currentUser);
+      if(user != null){
+        // const name = user.displayName;
+        // const email = user.email;
+        // const photoUrl = user.photoURL;
+        const uid = user.uid;
+        // console.log(currentUser, name, email, photoUrl, uid)
+        
+        this.getUserContacts(uid);
+      }
+    
+    });
+    
+  }
+
+  //fix!!!!!
+  getUserContacts(uid){
+        let user = this.state.user;
+        console.log(uid);
+        const userRef = firebase.database().ref().child(String(uid));
+        // userRef.on('value', snap=>console.log(snap.val()));
+        userRef.on('value', snap=>{
+          let contactValues = snap.val();
+          console.log(contactValues)
+          let newState = [];
+          for (let contact in contactValues){
+           newState.push({
+                   id: contact,
+                   first: contactValues[contact].first,
+                   last: contactValues[contact].last,
+                   birth: contactValues[contact].birth,
+                   home: contactValues[contact].home,
+                   cell: contactValues[contact].cell,
+                   mail: contactValues[contact].mail,
+                   address: contactValues[contact].address
+                 });
+          }
+          this.setState({
+            contactValues:newState
+          })
+
+        })
+       
+  }
+
+  saveFields(id){
+console.log("save")
+console.log(id)
+let editedContact = id
+console.log(editedContact)
+
+
+  }
+
 
   render() {
     return (
       <div className="App">
-        {/* sign in/sign out bar */}
-        {this.state.isAuthenticated ? (
+
+         {/* sign in/sign out bar  */}
+        {this.state.user ? (
           <MuiThemeProvider>
             <AppBar
               showMenuIconButton={false}
-              title={<span>User's Contacts</span>}
-              iconElementRight={<RaisedButton label="Sign Out" />}
+              title={<span>{this.state.user.displayName}'s Contacts</span>}
+              iconElementRight={
+                <RaisedButton label="Sign Out" onClick={this.logout} />
+              }
             />
           </MuiThemeProvider>
         ) : (
           <MuiThemeProvider>
             <AppBar
               showMenuIconButton={false}
-              title={<span>User's Contacts</span>}
-              iconElementRight={<Link to="/"><RaisedButton label="Sign In" /></Link>}
+              title={<span>Sign In to View Your Contacts</span>}
+              iconElementRight={
+                <Link to="/">
+                  <RaisedButton label="Sign In" onClick={this.login} />
+                </Link>
+              }
             />
           </MuiThemeProvider>
         )}
 
-        <header className="App-header" />
-
-         {/* <MuiThemeProvider>
-            <RaisedButton label="Create Contact"><Link to="/create"></Link></RaisedButton>
-          </MuiThemeProvider> */}
-
-          {/* {this.state.showForm && (
-           <ContactForm
-          />)} */}
 
 
-{/* <div className="mainContent">
-        <Route path='/create' component={ContactForm}/>
-</div> */}
-
-
-{/* 
-
-
-
-{!this.state.isAuthenticated ? (
-        <div className="contacts">
-           {!this.state.showForm && (
-           <ContactTable
-               contactValues={this.state.contactValues}
-              contactSelect={this.state.contactSelect}
-              deleteContact={this.deleteContact}
-             editContact={this.editContact}
-             changeForm={this.changeForm}
-           />
-         )}
+        <div className="mainContent">
+          {React.cloneElement(this.props.children, {
+            handleChange: this.handleChange,
+            handleSubmit: this.handleSubmit,
+            contactValues: this.state.contactValues,
+            showForm: this.state.showForm,
+            changeForm: this.changeForm,
+            contactSelect: this.state.contactSelect,
+            deleteContact: this.deleteContact,
+            editContact: this.editContact,
+            user: this.state.user,
+            isAuthenticated: this.state.isAuthenticated,
+            uid: this.state.uid,
+            saveFields: this.saveFields,
+            contactToEdit: this.state.contactToEdit,
+            handleEditSubmit: this.handleEditSubmit
+            // handleEditChange: this.handleEditChange
+          })}
         </div>
-):(
-<SigninBar
-          authWithEmail={this.authWithEmail}
-          authenticate={this.authenticate}
-          isAuthenticated={this.state.isAuthenticated}
-        />
-
-)}
-
-{!this.state.isAuthenticated ? (
-  <div>
-        {this.state.showForm && (
-          <ContactForm
-            handleChange={this.handleChange}
-            handleSubmit={this.handleSubmit}
-             contactValues={this.state.contactValues}
-             showForm={this.state.showForm}
-             changeForm={this.changeForm}
-          />
-       )}
-       </div>
-      ):(
-<SigninBar
-          authWithEmail={this.authWithEmail}
-          authenticate={this.authenticate}
-          isAuthenticated={this.state.isAuthenticated}
-        />
-
-      )} 
-        
-<SigninBar
-authWithEmail={this.authWithEmail}
-authenticate={this.authenticate}
-isAuthenticated={this.state.isAuthenticated}/>
-
-
- */}
-
-
-<div className="mainContent">
-{React.cloneElement(this.props.children, {
-  handleChange: this.handleChange,
-  handleSubmit: this.handleSubmit,
-  contactValues: this.state.contactValues,
-  showForm: this.state.showForm,
-  changeForm:this.changeForm,
-  contactValues:this.state.contactValues,
-              contactSelect:this.state.contactSelect,
-              deleteContact:this.deleteContact,
-             editContact:this.editContact
-})}
-</div>
-
-       </div>
-     );
-   }
+      </div>
+    );
+  }
 }
 
 export default App;

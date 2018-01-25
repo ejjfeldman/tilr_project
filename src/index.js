@@ -6,28 +6,22 @@ import ContactTable from './ContactTable';
 import SigninBar from './SigninBar';
 import ContactForm from './ContactForm';
 import CreateUser from './CreateUser';
-import * as firebase from 'firebase';
+import EditForm from './EditForm';
+import firebase, { auth, provider }  from './firebase.js';
 import registerServiceWorker from './registerServiceWorker';
-// import { BrowserRouter } from 'react-router-dom';
+// import { BrowserRouter, Route, Link } from 'react-router-dom'
 import { Router, Route, browserHistory, IndexRoute} from 'react-router';
 
-var config = {
-    apiKey: "AIzaSyCjVBw1Zd0ma76NGyQCpTSA-DARJpdtlgo",
-    authDomain: "tilr-contacts.firebaseapp.com",
-    databaseURL: "https://tilr-contacts.firebaseio.com",
-    storageBucket: "tilr-contacts.appspot.com",
-  };
 
-firebase.initializeApp(config);
 
 ReactDOM.render((<Router history={browserHistory}>
 <Route path='/' component={App}>
-<IndexRoute component={SigninBar}/>
-<Route exact path="contacts" component={ContactTable}/>
+
+<IndexRoute component={ContactTable}/>
 <Route exact path="create" component={ContactForm}/>
-
 <Route exact path="/create-user" component={CreateUser}/>
-
+<Route exact path="signin" component={SigninBar}/>
+<Route exact path="edit" component={EditForm}/>
 </Route>
 </Router>
 
