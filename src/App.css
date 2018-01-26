@@ -59,3 +59,17 @@ margin: 1%!important;
 .signOutBtn{
   margin-right: 2% !important;
 }
+
+.ContactTable{
+width: 80%;
+margin: auto;
+/* border: 1px black solid; */
+margin-top: 2%;
+}
+
+.ContactForm{
+  width: 80%;
+margin: auto;
+/* border: 1px black solid; */
+margin-top: 2%;
+}

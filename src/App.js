@@ -25,7 +25,8 @@ class App extends Component {
       showForm: false,
       user: null,
       uid: '',
-      contactToEdit: {}
+      contactToEdit: {},
+      contactInArray: null
       // isAuthenticated: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,7 +40,7 @@ class App extends Component {
     this.getUserContacts = this.getUserContacts.bind(this);
     this.saveFields = this.saveFields.bind(this);
     this.handleEditSubmit = this.handleEditSubmit.bind(this);
-
+    this.handleEditChange=this.handleEditChange.bind(this);
   }
 
   componentDidMount() {
@@ -88,7 +89,6 @@ class App extends Component {
       address: "",
       showForm: false
     });
-    console.log(this.state.uid)
     browserHistory.push("/")
   }
 
@@ -110,16 +110,12 @@ class App extends Component {
     specificContactRef.remove();
   }
 
-  editContact(contact) {
+  editContact(contact, i) {
     this.setState({
-      contactToEdit: contact
+      contactToEdit: contact,
+      contactInArray: i
     })
-    console.log(this.state.contactToEdit)
-    // let uid = this.state.uid;
-    // console.log({ [event.target.name]: event.target.value });
-    // const contactRef = firebase.database().ref().child(String(uid));
-    // const specificContactRef = contactRef.child(String(contactId));
-    // console.log(contactRef);
+    console.log(this.state.contactInArray)
     browserHistory.push("/edit")
   }
 
@@ -127,34 +123,35 @@ class App extends Component {
     console.log({[event.target.name]: event.target.value })
     event.preventDefault();
     let uid = this.state.uid;
-    const userRef = firebase.database().ref(uid);
-    const contact = {
-      first: this.state.firstName,
-      last: this.state.lastName,
-      birth: this.state.birthday,
-      home: this.state.homePhone,
-      cell: this.state.cellPhone,
-      mail: this.state.email,
-      address: this.state.address,
-      uid:this.state.uid
+    const contactArray = this.state.contactValues;
+    // const userRef = firebase.database().ref(uid);
+    let editThisContact = {
+      first: document.getElementById('first').value,
+      last: document.getElementById('last').value,
+      birth: document.getElementById('birth').value,
+      home: document.getElementById('home').value,
+      cell: document.getElementById('cell').value,
+      mail: document.getElementById('newEmail').value,
+      address: document.getElementById('newAddress').value,
     };
-    userRef.push(contact);
+    const userRef = firebase.database().ref(String(uid)).update(editThisContact);
+    contactArray.splice(this.state.contactInArray, 1, editThisContact)
     this.setState({
-      firstName: "",
-      lastName: "",
-      birthday: "",
-      homePhone: "",
-      cellPhone: "",
-      email: "",
-      address: "",
-      showForm: false
-    });
-    console.log(this.state.uid)
-    browserHistory.push("/")
+      contactValues: contactArray
+    })
+
+
 
   }
+
   //handling user login/out
-  handleUserChange(event) {}
+  handleEditChange(event) {
+    
+      this.setState({ contactToEdit: {[event.target.name]: event.target.value }});
+      console.log(this.state.contactToEdit);
+      console.log({ [event.target.name]: event.target.value });
+    
+  }
 
   logout() {
     auth.signOut().then(() => {
@@ -247,17 +244,26 @@ console.log(editedContact)
             />
           </MuiThemeProvider>
         ) : (
+          <div>
           <MuiThemeProvider>
             <AppBar
               showMenuIconButton={false}
-              title={<span>Sign In to View Your Contacts</span>}
-              iconElementRight={
-                <Link to="/">
-                  <RaisedButton label="Sign In" onClick={this.login} />
-                </Link>
-              }
+              title={<span>Welcome to your personalized contacts!</span>}
+              // iconElementRight={
+              //   <Link to="/">
+              //     <RaisedButton label="Sign In" onClick={this.login} />
+              //   </Link>
+              // }
             />
           </MuiThemeProvider>
+          <div>
+          <MuiThemeProvider>
+          <Link to="/">
+              <RaisedButton label="Sign In With Google" onClick={this.login} style={{margin:10}}/>
+                </Link>
+                  </MuiThemeProvider>
+              </div>
+              </div>
         )}
 
 
@@ -277,8 +283,8 @@ console.log(editedContact)
             uid: this.state.uid,
             saveFields: this.saveFields,
             contactToEdit: this.state.contactToEdit,
-            handleEditSubmit: this.handleEditSubmit
-            // handleEditChange: this.handleEditChange
+            handleEditSubmit: this.handleEditSubmit,
+            handleEditChange: this.handleEditChange
           })}
         </div>
       </div>

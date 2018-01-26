@@ -14,7 +14,7 @@ class EditForm extends Component {
     return (
     <div className="EditForm">
    <MuiThemeProvider>
-   <Link to="/"><RaisedButton label="Save Contact"></RaisedButton></Link>
+   <Link to="/"><RaisedButton label="Return to Contacts"></RaisedButton></Link>
     </MuiThemeProvider>
    
     <MuiThemeProvider>
@@ -23,17 +23,18 @@ class EditForm extends Component {
     <CardHeader
         title="Edit Contact"
       />
+      {/* change name field */}
         <div>
-    <TextField type="text" defaultValue={this.props.contactToEdit.first} name="firstName" hintText="eg. George" floatingLabelText="First Name" onChange={this.props.handleChange}/><br/>
-    <TextField type="text" defaultValue={this.props.contactToEdit.last} name="lastName" hintText="eg. Freeman" floatingLabelText="Last Name" onChange={this.props.handleChange}/><br/>
-    <TextField type="text" defaultValue={this.props.contactToEdit.birth} name="birthday" hintText="eg. November 10, 1959" floatingLabelText="Date of Birth" onChange={this.props.handleChange}/><br/>
-    <TextField type="text" defaultValue={this.props.contactToEdit.home} name="homePhone" hintText="eg. (555) 881-3948" floatingLabelText="Home Phone" onChange={this.props.handleChange}/><br/>
-    <TextField type="text" defaultValue={this.props.contactToEdit.cell} name="cellPhone" hintText="eg. (555) 940-2233" floatingLabelText="Cell Phone" onChange={this.props.handleChange}/><br/>
-    <TextField type="text" defaultValue={this.props.contactToEdit.mail} name="email" hintText="eg. george_f@gmail.com" floatingLabelText="Email" onChange={this.props.handleChange}/><br/>
-    <TextField type="text" defaultValue={this.props.contactToEdit.address} name="address" hintText="eg. 435 Street Avenue" floatingLabelText="Address" onChange={this.props.handleChange}/>
+    <TextField type="text" defaultValue={this.props.contactToEdit.first} id="first" hintText="eg. George" floatingLabelText="First Name" onChange={this.props.handleEditChange}/><br/>
+    <TextField type="text" defaultValue={this.props.contactToEdit.last} id="last" hintText="eg. Freeman" floatingLabelText="Last Name" onChange={this.props.handleEditChange}/><br/>
+    <TextField type="text" defaultValue={this.props.contactToEdit.birth} id="birth" hintText="eg. November 10, 1959" floatingLabelText="Date of Birth" onChange={this.props.handleEditChange}/><br/>
+    <TextField type="text" defaultValue={this.props.contactToEdit.home} id="home" hintText="eg. (555) 881-3948" floatingLabelText="Home Phone" onChange={this.props.handleEditChange}/><br/>
+    <TextField type="text" defaultValue={this.props.contactToEdit.cell} id="cell" hintText="eg. (555) 940-2233" floatingLabelText="Cell Phone" onChange={this.props.handleEditChange}/><br/>
+    <TextField type="text" defaultValue={this.props.contactToEdit.mail} id="newEmail" hintText="eg. george_f@gmail.com" floatingLabelText="Email" onChange={this.props.handleEditChange}/><br/>
+    <TextField type="text" defaultValue={this.props.contactToEdit.address} id="newAddress" hintText="eg. 435 Street Avenue" floatingLabelText="Address" onChange={this.props.handleEditChange}/>
         </div>
         <br />
-        <button type="submit" value="Submit">Save Changes</button>
+        <button type="submit" value="Submit">Save</button>
         <Link to="/"><button onClick={this.props.onClick}>Cancel</button></Link>
     </form>
     </Card>

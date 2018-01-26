@@ -25,7 +25,7 @@ class ContactTable extends Component {
 <MuiThemeProvider>
 <Link to="/create"><RaisedButton label="Create Contact"></RaisedButton></Link>
 
-    <Table>
+    <Table >
     <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
       <TableRow>
         <TableHeaderColumn>First Name</TableHeaderColumn>
@@ -35,14 +35,16 @@ class ContactTable extends Component {
         <TableHeaderColumn>Cell Phone</TableHeaderColumn>
         <TableHeaderColumn>Email</TableHeaderColumn>
         <TableHeaderColumn>Address</TableHeaderColumn>
-        <TableHeaderColumn></TableHeaderColumn>
+        <TableHeaderColumn>Edit/Delete</TableHeaderColumn>
         
       </TableRow>
     </TableHeader>
     <TableBody displayRowCheckbox={false}>
-    {this.props.contactValues.map((contact)=>{
+    {this.props.contactValues.map((contact, index)=>{
               return(
-      <TableRow key={contact.id} onClick={this.props.contactSelect}>
+                // <TableRow key={contact.id} onClick={this.props.contactSelect}>
+      
+      <TableRow key={index} onClick={this.props.contactSelect}>
                 <TableRowColumn>{contact.first}</TableRowColumn>
                 <TableRowColumn>{contact.last}</TableRowColumn>
                 <TableRowColumn>{contact.birth}</TableRowColumn>
@@ -51,7 +53,7 @@ class ContactTable extends Component {
                 <TableRowColumn>{contact.mail}</TableRowColumn>
                 <TableRowColumn>{contact.address}</TableRowColumn>
                 <TableRowColumn>
-                    <IconButton onClick={()=> this.props.editContact(contact)}>
+                    <IconButton onClick={()=> this.props.editContact(contact, index)}>
                         <EditIcon/>
                     </IconButton >
                     <IconButton onClick={()=> this.props.deleteContact(contact.id)}>
@@ -65,7 +67,7 @@ class ContactTable extends Component {
     </Table>
 </MuiThemeProvider>):(
 <div>
-  <p>Please Sign In</p>
+ 
   </div>
 
 )}
