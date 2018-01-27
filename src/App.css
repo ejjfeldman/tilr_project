@@ -60,16 +60,14 @@ margin: 1%!important;
   margin-right: 2% !important;
 }
 
-.ContactTable{
-width: 80%;
+.ContactTable, .DetailPage, .EditForm, .ContactForm{
+width: 70%;
 margin: auto;
-/* border: 1px black solid; */
 margin-top: 2%;
+
 }
 
-.ContactForm{
-  width: 80%;
-margin: auto;
-/* border: 1px black solid; */
-margin-top: 2%;
+.sortTable:hover{
+color:black;
+cursor: pointer;
 }

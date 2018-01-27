@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import firebase, { auth, provider } from "./firebase.js";
-import {Card, CardHeader} from 'material-ui/Card';
 import RaisedButton from "material-ui/RaisedButton";
 import { browserHistory, Link } from 'react-router';
 import TextField from 'material-ui/TextField';
@@ -13,17 +12,13 @@ class EditForm extends Component {
     render() {
     return (
     <div className="EditForm">
+    
    <MuiThemeProvider>
    <Link to="/"><RaisedButton label="Return to Contacts"></RaisedButton></Link>
     </MuiThemeProvider>
    
     <MuiThemeProvider>
-    <Card>
     <form className="form" onSubmit={this.props.handleEditSubmit}>
-    <CardHeader
-        title="Edit Contact"
-      />
-      {/* change name field */}
         <div>
     <TextField type="text" defaultValue={this.props.contactToEdit.first} id="first" hintText="eg. George" floatingLabelText="First Name" onChange={this.props.handleEditChange}/><br/>
     <TextField type="text" defaultValue={this.props.contactToEdit.last} id="last" hintText="eg. Freeman" floatingLabelText="Last Name" onChange={this.props.handleEditChange}/><br/>
@@ -34,10 +29,9 @@ class EditForm extends Component {
     <TextField type="text" defaultValue={this.props.contactToEdit.address} id="newAddress" hintText="eg. 435 Street Avenue" floatingLabelText="Address" onChange={this.props.handleEditChange}/>
         </div>
         <br />
-        <button type="submit" value="Submit">Save</button>
-        <Link to="/"><button onClick={this.props.onClick}>Cancel</button></Link>
+        <RaisedButton type="submit" label="Save" value="Submit" style={{margin: 10}}></RaisedButton>
+        <Link to="/"><RaisedButton label="Cancel" onClick={this.props.onClick}></RaisedButton></Link>
     </form>
-    </Card>
     </MuiThemeProvider>
     </div>
     );
