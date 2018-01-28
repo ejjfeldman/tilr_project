@@ -15,13 +15,11 @@ import DeleteIcon from "material-ui/svg-icons/action/delete";
 import IconButton from "material-ui/IconButton";
 import MoreIcon from "material-ui/svg-icons/navigation/more-horiz";
 
-import { browserHistory, Link } from "react-router";
-import FlatButton from "material-ui/FlatButton";
-import Dialog from "material-ui/Dialog";
-import DetailPage from "./DetailPage";
-import { Card, CardHeader } from "material-ui/Card";
+import { Link } from "react-router";
+import { Card } from "material-ui/Card";
 
 class ContactTable extends Component {
+  
   constructor(props) {
     super(props);
 
@@ -29,6 +27,7 @@ class ContactTable extends Component {
     this.compareValues = this.compareValues.bind(this);
   }
 
+  //Sorting columns
   compareValues(columnName) {
     return function(a, b) {
       if (a[columnName] < b[columnName]) return -1;

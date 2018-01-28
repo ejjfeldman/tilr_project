@@ -36,6 +36,7 @@ class App extends Component {
     this.handleEditSubmit = this.handleEditSubmit.bind(this);
     this.handleEditChange=this.handleEditChange.bind(this);
     this.handleDetails=this.handleDetails.bind(this);
+    this.clearState=this.clearState.bind(this);
   }
 
   //Ensuring content is loading when user is still signed in
@@ -104,7 +105,7 @@ class App extends Component {
       cellPhone: "",
       email: "",
       address: "",
-      showForm: false
+
     });
     browserHistory.push("/")
   }
@@ -112,8 +113,10 @@ class App extends Component {
   //Delete contact
   deleteContact(contactId) {
     let uid = this.state.uid;
+    console.log(uid)
     const contactRef = firebase.database().ref().child(String(uid));
     const specificContactRef = contactRef.child(String(contactId));
+    console.log(specificContactRef)
     specificContactRef.remove();
   }
 
@@ -136,9 +139,11 @@ class App extends Component {
   }
 
   handleEditSubmit(event){
-    console.log({[event.target.name]: event.target.value })
+
+    // console.log({[event.target.name]: event.target.value })
     event.preventDefault();
     let uid = this.state.uid;
+    let deleteContact = this.state.contactToEdit.id;
     const contactArray = this.state.contactValues;
     let editThisContact = {
       first: document.getElementById('first').value,
@@ -149,17 +154,44 @@ class App extends Component {
       mail: document.getElementById('newEmail').value,
       address: document.getElementById('newAddress').value,
     };
-    const userRef = firebase.database().ref(String(uid)).update(editThisContact);
-    contactArray.splice(this.state.contactInArray, 1, editThisContact)
+   console.log(this.state.contactInArray)
+    
+
+    const userRef = firebase.database().ref().child(uid);
+    let key = userRef.push().key;
+    let update = {};
+    update[key]= editThisContact;
+    let result = userRef.update(update);
+
     this.setState({
       contactValues: contactArray
     })
-    browserHistory.push("/")
+    const contactRef = firebase.database().ref().child(String(uid));
+    const specificContactRef = contactRef.child(String(deleteContact));
+
+    specificContactRef.remove();
+    this.clearState()
+
+
+     browserHistory.push("/")
+  }
+  clearState(){
+    this.setState({
+      firstName: "",
+      lastName: "",
+      birthday: "",
+      homePhone: "",
+      cellPhone: "",
+      email: "",
+      address: "",
+    });
   }
 
-  //Handling user login/out
   handleEditChange(event) {
-      this.setState({ contactToEdit: {[event.target.name]: event.target.value }});    
+// //Return tocommented out
+//     this.setState({ [event.target.name]: event.target.value });
+    
+//       // this.setState({ contactToEdit: {[event.target.name]: event.target.value }});    
   }
 
   //Log user out of Google
@@ -192,8 +224,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-
-         {/* sign in/sign out bar  */}
         {this.state.user ? (
           <MuiThemeProvider>
             <Avatar src={this.state.user.photoURL} />
@@ -201,9 +231,7 @@ class App extends Component {
               showMenuIconButton={false}
               title={<span>{this.state.user.displayName}'s Contacts</span>}
               iconElementRight={
-                <RaisedButton label="Sign Out" onClick={this.logout} />
-              }
-            />
+                <RaisedButton label="Sign Out" onClick={this.logout} />}/>
           </MuiThemeProvider>
         ) : (
           <div>
