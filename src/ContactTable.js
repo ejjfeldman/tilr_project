@@ -107,6 +107,11 @@ class ContactTable extends Component {
         ) : (
           <div />
         )}
+        {this.props.contactValues.length == 0 ? (
+          <h2>Please Create Your First Contact</h2>
+        ):(
+          <div></div>
+        )}
       </div>
     );
   }

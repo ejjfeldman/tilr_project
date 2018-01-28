@@ -64,10 +64,13 @@ margin: 1%!important;
 width: 70%;
 margin: auto;
 margin-top: 2%;
-
 }
 
 .sortTable:hover{
 color:black;
 cursor: pointer;
+}
+
+.appHeader{
+  margin-left: 95px;
 }

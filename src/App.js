@@ -34,7 +34,6 @@ class App extends Component {
     this.login = this.login.bind(this);
     this.getUserContacts = this.getUserContacts.bind(this);
     this.handleEditSubmit = this.handleEditSubmit.bind(this);
-    this.handleEditChange=this.handleEditChange.bind(this);
     this.handleDetails=this.handleDetails.bind(this);
     this.clearState=this.clearState.bind(this);
   }
@@ -139,12 +138,11 @@ class App extends Component {
   }
 
   handleEditSubmit(event){
-
-    // console.log({[event.target.name]: event.target.value })
     event.preventDefault();
     let uid = this.state.uid;
     let deleteContact = this.state.contactToEdit.id;
     const contactArray = this.state.contactValues;
+    console.log(contactArray)
     let editThisContact = {
       first: document.getElementById('first').value,
       last: document.getElementById('last').value,
@@ -154,9 +152,7 @@ class App extends Component {
       mail: document.getElementById('newEmail').value,
       address: document.getElementById('newAddress').value,
     };
-   console.log(this.state.contactInArray)
-    
-
+console.log(editThisContact)
     const userRef = firebase.database().ref().child(uid);
     let key = userRef.push().key;
     let update = {};
@@ -164,14 +160,13 @@ class App extends Component {
     let result = userRef.update(update);
 
     this.setState({
-      contactValues: contactArray
+      contactValues: editThisContact
     })
+
     const contactRef = firebase.database().ref().child(String(uid));
     const specificContactRef = contactRef.child(String(deleteContact));
-
     specificContactRef.remove();
     this.clearState()
-
 
      browserHistory.push("/")
   }
@@ -187,15 +182,9 @@ class App extends Component {
     });
   }
 
-  handleEditChange(event) {
-// //Return tocommented out
-//     this.setState({ [event.target.name]: event.target.value });
-    
-//       // this.setState({ contactToEdit: {[event.target.name]: event.target.value }});    
-  }
-
   //Log user out of Google
   logout() {
+    browserHistory.push("/")
     auth.signOut().then(() => {
       this.setState({
         user: null
@@ -229,7 +218,7 @@ class App extends Component {
             <Avatar src={this.state.user.photoURL} />
             <AppBar
               showMenuIconButton={false}
-              title={<span>{this.state.user.displayName}'s Contacts</span>}
+              title={<span className='appHeader'>{this.state.user.displayName}'s Contacts</span>}
               iconElementRight={
                 <RaisedButton label="Sign Out" onClick={this.logout} />}/>
           </MuiThemeProvider>
@@ -238,7 +227,7 @@ class App extends Component {
           <MuiThemeProvider>
             <AppBar
               showMenuIconButton={false}
-              title={<span>Welcome to your personalized contacts!</span>}
+              title={<span className='appHeader'>Welcome to your personalized contacts!</span>}
             />
           </MuiThemeProvider>
           <div>
@@ -251,7 +240,6 @@ class App extends Component {
               </div>
         )}
 
-
         <div className="mainContent">
           {React.cloneElement(this.props.children, {
             handleChange: this.handleChange,
@@ -260,7 +248,6 @@ class App extends Component {
             deleteContact: this.deleteContact,
             editContact: this.editContact,
             user: this.state.user,
-            isAuthenticated: this.state.isAuthenticated,
             uid: this.state.uid,
             contactToEdit: this.state.contactToEdit,
             handleEditSubmit: this.handleEditSubmit,
